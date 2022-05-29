@@ -1,0 +1,56 @@
+{% extends 'base.html' %} 
+{% block content %} 
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+
+
+<div class="container">
+  {% for blog in page_obj %}
+  <div class="card">
+    <div class="card__header">
+      <img
+        src="{{ blog.image.url }}"
+        alt="card__image"
+        class="card__image"
+        width="600"
+      />
+    </div>
+    <div class="card__body">
+      <span class="tag tag-blue">{{ blog.category }}</span>
+      <h4>{{blog.title}}</h4>
+      <p>{{ blog.content }}</p>
+    </div>
+    <div class="card__footer">
+      <div class="user">
+        <img src="" alt="user__image" class="user__image" />
+        <div class="user__info">
+          <h5>Jane Doe</h5>
+          <small>{{ blog.date }}</small>
+        </div>
+      </div>
+      <a href="{% url 'detail' blog.id %}" class="readmore">Read More</a>
+    </div>
+</div>
+{% endfor %} 
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %} 
+

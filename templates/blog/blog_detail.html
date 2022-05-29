@@ -1,0 +1,36 @@
+{% extends 'base.html' %} 
+{% block content %} 
+<h1>Detail Page</h1>
+
+  <div class="card">
+    <div class="card__header">
+      <img
+        src="{{ blog.image.url }}"
+        alt="card__image"
+        class="card__image"
+        width="600"
+      />
+    </div>
+    <div class="card__body">
+      <span class="tag tag-blue">{{ blog.category }}</span>
+      <h4>{{blog.title}}</h4>
+      <p>{{ blog.content }}</p>
+    </div>
+    <div class="card__footer">
+      <div class="user">
+        <img src="" alt="user__image" class="user__image" />
+        <div class="user__info">
+          <h5>Jane Doe</h5>
+          <small>{{ blog.date }}</small>
+        </div>
+      </div>
+      <h3>Comment Area</h3>
+      <h3>Comments</h3>
+
+      <button><a href="{% url 'update' blog.id %}" class="">Update</a></button>
+      <button><a href="{% url 'delete' blog.id %}" class="">Delete</a></button>
+    </div>
+  </div>
+
+
+{% endblock %} 

@@ -1,0 +1,22 @@
+.navColor{
+    background-color: #382e64;
+    color: wheat;
+    border: none;
+    position: sticky;
+    top: 0%;
+  }
+  .navColor a{
+    color: white;
+  }
+
+  .navColor a:hover{
+    color: #0b504f;
+  }
+
+  .spanColor{
+    background-color: white;
+  }
+
+  .home:hover{
+    background-color: white;
+  }
