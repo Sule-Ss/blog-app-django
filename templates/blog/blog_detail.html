@@ -1,8 +1,78 @@
 {% extends 'base.html' %} 
-{% block content %} 
-<h1>Detail Page</h1>
+{% block content %}
 
-  <div class="card">
+<style>
+.detailsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detailsContainer .cardContainer {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 5px 10px 8px #85586F;
+    min-width: 30%;
+}
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 2rem
+}
+
+/* delete button */
+
+.cardContainer .deleteButton {
+    background-image: linear-gradient(to right, #C04848 0%, #480048 51%, #C04848 100%);
+
+    padding: 0.3rem 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+
+}
+
+.cardContainer .deleteButton:hover {
+    background-position: right center;
+
+    color: #fff;
+    text-decoration: none;
+}
+
+/* update button */
+ .cardContainer .updateButton {
+    background-image: linear-gradient(to right, #f85032 0%, #e73827  51%, #f85032  100%);
+    padding: 0.3rem 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+  }
+
+  .card__image{
+    height:30rem;
+    width:100%;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .cardContainer .updateButton:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+</style>
+<div class="detailsContainer">
+  <div class="cardContainer">
     <div class="card__header">
       <img
         src="{{ blog.image.url }}"
@@ -26,11 +96,13 @@
       </div>
       <h3>Comment Area</h3>
       <h3>Comments</h3>
+    <div class="buttons">
+      <a href="{% url 'update' blog.id %}" class="updateButton">Update</a>
+      <a href="{% url 'delete' blog.id %}" class="deleteButton">Delete</a>
+    </div>
 
-      <button><a href="{% url 'update' blog.id %}" class="">Update</a></button>
-      <button><a href="{% url 'delete' blog.id %}" class="">Delete</a></button>
     </div>
   </div>
-
+</div>
 
 {% endblock %} 

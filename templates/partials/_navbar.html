@@ -28,24 +28,26 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
           
-          {% if user.is_authenticated %}
+              {% if request.user.is_authenticated %}
             <li>
-              <a href=""><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+              <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
             </li>
+            {% if request.user.is_superuser %}
+            <li>
+              <a href=""><span class="glyphicon glyphicon-user"></span>Admin</a>
+            </li> 
+            {% else %}
             <li>
               <a href=""><span class="glyphicon glyphicon-user"></span> {{ user.username | title }}</a>
-            </li>         
+            </li>
+              {% endif %}         
           {% else %}
 
             <li>
-              <a href=""
-                ><span class="glyphicon glyphicon-user"></span> Sign Up</a
-              >
+              <a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span>Register</a>
             </li>
             <li>
-              <a href=""
-                ><span class="glyphicon glyphicon-log-in"></span> Login</a
-              >
+              <a href="{% url 'user_login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
             </li>
           {% endif %}
             
