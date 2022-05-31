@@ -1,29 +1,33 @@
-{% extends 'base.html' %} 
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <style>
-.detailsContainer {
+  .detailsContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+  }
 
-.detailsContainer .cardContainer {
+  .detailsContainer .cardContainer {
     display: flex;
     flex-direction: column;
-    box-shadow: 5px 10px 8px #85586F;
+    box-shadow: 5px 10px 8px #85586f;
     min-width: 30%;
-}
-.buttons{
+  }
+  .buttons {
     display: flex;
     justify-content: space-between;
-    margin: 1rem 2rem
-}
+    margin: 1rem 2rem;
+  }
 
-/* delete button */
+  /* delete button */
 
-.cardContainer .deleteButton {
-    background-image: linear-gradient(to right, #C04848 0%, #480048 51%, #C04848 100%);
+  .cardContainer .deleteButton {
+    background-image: linear-gradient(
+      to right,
+      #c04848 0%,
+      #480048 51%,
+      #c04848 100%
+    );
 
     padding: 0.3rem 1rem;
     text-align: center;
@@ -34,33 +38,37 @@
     box-shadow: 0 0 20px #eee;
     border-radius: 10px;
     display: block;
+  }
 
-}
-
-.cardContainer .deleteButton:hover {
+  .cardContainer .deleteButton:hover {
     background-position: right center;
 
     color: #fff;
     text-decoration: none;
-}
+  }
 
-/* update button */
- .cardContainer .updateButton {
-    background-image: linear-gradient(to right, #f85032 0%, #e73827  51%, #f85032  100%);
+  /* update button */
+  .cardContainer .updateButton {
+    background-image: linear-gradient(
+      to right,
+      #f85032 0%,
+      #e73827 51%,
+      #f85032 100%
+    );
     padding: 0.3rem 1rem;
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 200% auto;
-    color: white;            
+    color: white;
     box-shadow: 0 0 20px #eee;
     border-radius: 10px;
     display: block;
   }
 
-  .card__image{
-    height:30rem;
-    width:100%;
+  .card__image {
+    height: 30rem;
+    width: 100%;
     background-size: cover;
     background-position: center;
   }
@@ -94,16 +102,25 @@
           <small>{{ blog.date }}</small>
         </div>
       </div>
-      
-      <h3>Comment Area</h3>
-      <h3>Comments</h3>
-    <div class="buttons">
-      <a href="{% url 'update' blog.id %}" class="updateButton">Update</a>
-      <a href="{% url 'delete' blog.id %}" class="deleteButton">Delete</a>
-    </div>
 
+      <h2 class="subtitle">Add Comment</h2>
+
+
+      <div class="buttons">
+        <a href="{% url 'update' blog.id %}" class="updateButton">Update</a>
+        <a href="{% url 'delete' blog.id %}" class="deleteButton">Delete</a>
+      </div>
     </div>
+          <form action="." method="post">
+        {% csrf_token %} 
+        {{ form.as_p }}
+        <div class="">
+          <div class="">
+            <input type="submit" value="Submit">
+          </div>
+        </div>
+      </form>
   </div>
 </div>
 
-{% endblock %} 
+{% endblock %}

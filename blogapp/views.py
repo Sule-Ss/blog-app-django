@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from blogapp.forms import BlogForm
 from .models import Blog
+from .forms import CommentForm
 
 
 def home(request):
@@ -38,7 +39,20 @@ def blog_add(request):
 
 def blog_detail(request, id):
     blog = Blog.objects.get(id=id)
-    return render(request, 'blog/blog_detail.html', {'blog':blog})
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.blog = blog
+            comment.save()
+
+            return redirect('detail', id=id)
+
+    else:
+        form = CommentForm()
+    return render(request, 'blog/blog_detail.html', {'blog':blog, 'form':form})
 
 def blog_update(request, id):
     blog = Blog.objects.get(id=id)
