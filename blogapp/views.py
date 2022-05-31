@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
 from blogapp.forms import BlogForm
 from .models import Blog
@@ -10,10 +10,14 @@ from .models import Blog
 def home(request):
     return render(request, 'home.html')
 
+def about(request):
+    return render(request, 'about.html')
+
 def blog_list(request):
     blog_list = Blog.objects.all()
     return render(request, 'blog/blog_list.html', {'blog_list': blog_list})
 
+@login_required
 def blog_add(request):
     form = BlogForm()
     if request.method == 'POST':
