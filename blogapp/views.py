@@ -12,11 +12,7 @@ def home(request):
 
 def blog_list(request):
     blog_list = Blog.objects.all()
-    paginator = Paginator(blog_list, 5) 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, 'blog/blog_list.html', {'page_obj': page_obj})
+    return render(request, 'blog/blog_list.html', {'blog_list': blog_list})
 
 def blog_add(request):
     form = BlogForm()
