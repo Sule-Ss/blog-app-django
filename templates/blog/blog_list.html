@@ -23,7 +23,9 @@
         <img src="" alt="user__image" class="user__image" />
         <div class="user__info">
           <h5>Jane Doe</h5>
-          <small>{{ blog.date }}</small>
+          <small>{{ blog.last_update}}</small><br>
+          <small>{{ blog.publish_date}}</small><br>
+          <small>{{ blog.date}}</small>
         </div>
       </div>
       <a href="{% url 'detail' blog.slug %}" class="readmore">Read More</a>

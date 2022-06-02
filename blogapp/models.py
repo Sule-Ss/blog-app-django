@@ -23,8 +23,10 @@ class Blog(models.Model):
     image= models.ImageField(upload_to = "blogImg/", default= "default.jpg")
     category= models.CharField(choices=CATEGORY, blank=True, max_length=200)
     status= models.CharField(choices=STATUS, max_length=200)
-    date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    publish_date=models.DateTimeField(auto_now_add=True)
+    last_update=models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-date']
