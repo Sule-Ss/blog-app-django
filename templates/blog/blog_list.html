@@ -26,7 +26,7 @@
           <small>{{ blog.date }}</small>
         </div>
       </div>
-      <a href="{% url 'detail' blog.id %}" class="readmore">Read More</a>
+      <a href="{% url 'detail' blog.slug %}" class="readmore">Read More</a>
     </div>
   </div>
   {% endfor %}

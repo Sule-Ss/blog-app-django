@@ -6,9 +6,14 @@ from .forms import UserForm, UserProfileForm
 
 from django.contrib.auth.forms import AuthenticationForm
 
+from django.contrib.auth.decorators import login_required
+
 
 def home(request):
     return render(request, "home.html")
+
+""" def user_profile(request):
+    return render(request, "users/user_profile.html") """
 
 def user_logout(request):
     messages.success(request, 'You logged out!')
@@ -55,4 +60,22 @@ def user_login(request):
             return redirect('home')
 
     return render(request, 'users/user_login.html', {"form":form})
+
+@login_required
+def user_profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='users-profile')
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.profile)
+
+    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
 

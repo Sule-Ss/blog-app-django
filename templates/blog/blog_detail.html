@@ -1,5 +1,11 @@
 {% extends 'base.html' %} {% block content %}
-
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+  integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
 <style>
   .detailsContainer {
     display: flex;
@@ -88,7 +94,7 @@
     background: #f7f7f7;
   }
   form h1 {
-    background: #9385D3;
+    background: #9385d3;
     padding: 20px 0;
     font-size: 140%;
     font-weight: 300;
@@ -145,7 +151,7 @@
     padding: 3%;
     border: 1px solid #c843d1;
   }
-  
+
   form input[type="submit"],
   form input[type="button"],
   .noButton {
@@ -186,34 +192,51 @@
     </div>
     <div class="card__footer">
       <div class="user">
-        <img src="" alt="user__image" class="user__image" />
+        <img
+          src="{{ request.profile_pic }}"
+          alt="user__image"
+          class="user__image"
+        />
         <div class="user__info">
           <h5>{{ request.user }}</h5>
           <small>{{ blog.date }}</small>
+          <div>{{ request.user.profile_pic}}</div>
         </div>
       </div>
 
-      <h2 class="subtitle">Add Comment</h2>
+      <h3>
+        <span><i class="fa-regular fa-comment"></i></span> <small>1</small>
+        <span><i class="fa-solid fa-eye"></i></span> <small>1</small>
+        <span><i class="fa-regular fa-heart"></i></span> <small>1</small>
+      </h3>
 
       <div class="buttons">
-        <a href="{% url 'update' blog.id %}" class="updateButton">Update</a>
-        <a href="{% url 'delete' blog.id %}" class="deleteButton">Delete</a>
+        <a href="{% url 'update' blog.slug %}" class="updateButton">Update</a>
+        <a href="{% url 'delete' blog.slug %}" class="deleteButton">Delete</a>
       </div>
     </div>
   </div>
 </div>
-    <form action="." method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <div class="">
-        <div class="">
-          <input type="submit" value="Submit" />
-        </div>
-      </div>
-    </form>
+<form action="." method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <div class="">
+    <div class="">
+      <input type="submit" value="Submit" />
+    </div>
+  </div>
+</form>
 
-<div class="comment">
-
-  
+<div class="">
+  <div>
+    <h1>Commnets</h1>
+    <!-- buradaki comments related_name den geliyor -->
+    {% for comment in blog.comments.all %}
+    <p>
+      <span>{{ comment.body }}</span>
+      <span>{{ comment.date_added | date:"F Y" }}</span>
+    </p>
+    {% endfor %}
+  </div>
 </div>
 
 {% endblock %}

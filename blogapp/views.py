@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404
 
 from django.contrib.auth.decorators import login_required
 
@@ -37,25 +38,26 @@ def blog_add(request):
     return render(request, 'blog/blog_add.html', context)
 
 
-def blog_detail(request, id):
-    blog = Blog.objects.get(id=id)
+def blog_detail(request, slug):
+    blog = Blog.objects.get(slug=slug)
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
 
         if form.is_valid():
+#!save()'i commit=False ile çağırırsanız, o zaman veritabanına henüz kaydedilmemiş bir nesne döndürür. Bir sonraki adımda save ile de kaydedilir.
             comment = form.save(commit=False)
             comment.blog = blog
             comment.save()
 
-            return redirect('detail', id=id)
+            return redirect('detail', slug=blog.slug)
 
     else:
         form = CommentForm()
     return render(request, 'blog/blog_detail.html', {'blog':blog, 'form':form})
 
-def blog_update(request, id):
-    blog = Blog.objects.get(id=id)
+def blog_update(request, slug):
+    blog = Blog.objects.get(slug=slug)
     form = BlogForm(instance=blog)
     if request.method == 'POST':
         form =  BlogForm(request.POST, instance=blog)
@@ -70,8 +72,8 @@ def blog_update(request, id):
     return render(request, 'blog/blog_update.html', {'form': form, 'blog':blog})
 
 
-def blog_delete(request, id):
-    blog = Blog.objects.get(id=id)
+def blog_delete(request, slug):
+    blog = Blog.objects.get(slug=slug)
     if request.method == "POST":
         blog.delete()
         messages.success(request, "Blog delete succesfully!")

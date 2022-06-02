@@ -6,7 +6,7 @@ class BlogForm(forms.ModelForm):
 
     class Meta:
         model = Blog
-        fields= '__all__'
+        exclude= ('slug',)
         labels = {
             'title': 'Title',
             'content': 'Content',
