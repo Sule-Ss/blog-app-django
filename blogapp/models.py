@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 CATEGORY = (
@@ -14,7 +15,9 @@ CATEGORY = (
 )
 
 STATUS =(
-    ('status','status'),
+    (None,'status'),
+    ('published','published'),
+    ('draft','draft'),
 )
 
 class Blog(models.Model):
@@ -45,3 +48,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['date_added']
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, related_name='favorites' , on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, related_name='favorites' , on_delete=models.CASCADE)

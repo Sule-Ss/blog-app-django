@@ -80,3 +80,9 @@ def blog_delete(request, slug):
         return redirect('list')
     return render(request, 'blog/blog_delete.html')
 
+def favorite(request, slug):
+    blog = Blog.objects.get(slug = blog.slug)
+    count =blog.favorites.count()
+
+    return render(request, 'blog/blog_detail.html', {'count':count})
+
