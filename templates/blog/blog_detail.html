@@ -204,11 +204,11 @@
         </div>
       </div>
 
-      <h3>
-        <span><i class="fa-regular fa-comment"></i></span> <small>1</small>
+      <article>
+        <span><i class="fa-regular fa-comment"></i></span> <small>{{ blog.comments.all|length }}</small>
         <span><i class="fa-solid fa-eye"></i></span> <small>1</small>
         <span><i class="fa-regular fa-heart"></i></span> <small>1</small>
-      </h3>
+      </article>
 
       <div class="buttons">
         <a href="{% url 'update' blog.slug %}" class="updateButton">Update</a>

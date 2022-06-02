@@ -1,5 +1,13 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
 
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+  integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
 <link rel="stylesheet" href="{% static 'blog/blog.css' %}" />
 
 <div class="container">
@@ -23,6 +31,13 @@
         <img src="" alt="user__image" class="user__image" />
         <div class="user__info">
           <h5>Jane Doe</h5>
+
+      <article>
+        <span><i class="fa-regular fa-comment"></i></span> <small>{{ blog.comments.all|length }}</small>
+        <span><i class="fa-solid fa-eye"></i></span> <small>1</small>
+        <span><i class="fa-regular fa-heart"></i></span> <small>1</small>
+      </article>
+        
           <small>{{ blog.last_update}}</small><br>
           <small>{{ blog.publish_date}}</small><br>
           <small>{{ blog.date}}</small>
