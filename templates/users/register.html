@@ -1,112 +1,87 @@
-{% extends 'base.html' %} {% block content %} {% load crispy_forms_tags %}
-{% load static %}
+{% extends "base.html" %}
+{% block title %} Register Page {% endblock title%}
+{% block content %}
 
-<style>
-form {
-    font: 95% Arial, Helvetica, sans-serif;
-    max-width: 400px;
-    margin: 10px auto;
-    padding: 16px;
-    background: #f7f7f7;
-  }
-  form h1 {
-    background: #9385D3;
-    padding: 20px 0;
-    font-size: 140%;
-    font-weight: 300;
-    text-align: center;
-    color: #fff;
-    margin: -16px -16px 16px -16px;
-  }
-  form input[type="text"],
-  form input[type="date"],
-  form input[type="datetime"],
-  form input[type="email"],
-  form input[type="number"],
-  form input[type="search"],
-  form input[type="time"],
-  form input[type="url"],
-  form input[type="image"],
-  form input[type="password"],
-  form input,
-  .password,
-  #id_phone_number,
-  form textarea,
-  form select {
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    outline: none;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    width: 100%;
-    background: #fff;
-    margin-bottom: 4%;
-    border: 1px solid #ccc;
-    padding: 3%;
-    color: #555;
-    font: 95% Arial, Helvetica, sans-serif;
-  }
-  form input[type="text"]:focus,
-  form input[type="date"]:focus,
-  form input[type="datetime"]:focus,
-  form input[type="email"]:focus,
-  form input[type="number"]:focus,
-  form input[type="search"]:focus,
-  form input[type="time"]:focus,
-  form input[type="url"]:focus,
-  form input[type="image"]:focus,
-  form input[type="password"]:focus,
-  .password:focus,
-  #id_phone_number:focus,
-  form textarea:focus,
-  form select:focus {
-    box-shadow: 0 0 5px #7e43d1;
-    padding: 3%;
-    border: 1px solid #c843d1;
-  }
-  
-  form input[type="submit"],
-  form input[type="button"],
-  .noButton {
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    width: 100%;
-    padding: 3%;
-    background: #9457ea;
-    border-bottom: 2px solid #6528ba;
-    border-top-style: none;
-    border-right-style: none;
-    border-left-style: none;
-    color: #fff;
-  }
-  form input[type="submit"]:hover,
-  form input[type="button"]:hover,
-  .noButton:hover {
-    background: #8e58da;
-    cursor: pointer;
-  }
-</style>
-{% comment %} <link rel="stylesheet" href="{% static 'users/register.css' %}"> {% endcomment %}
+    <div class="form-content my-3 p-3 mx-auto">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+                        <div class="card-header justify-content-center">
+                            <h3 class="font-weight-light my-4 text-center">Create Account</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% if form.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <div id="form_errors">
+                                            {% for key, value in form.errors.items %}
+                                                <strong>{{ value }}</strong>
+                                            {% endfor %}
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">First Name</label>
+                                            {{ form.first_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Last Name</label>
+                                            {{ form.last_name }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Username</label>
+                                            {{ form.username }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Email</label>
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Password</label>
+                                            {{ form.password1 }}
+                                            {{ form.errors.password }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
 
-{% if request.user.is_authenticated %}
-
-<h3>Thanks for registering</h3>
-
-{% else %}
-
-<h3>Fill out the form please!</h3>
-
-<form action="" method="post" enctype="multipart/form-data">
-<h1>Registration Form</h1>
-  {% csrf_token %}
-  {{ form_user }}
-  {{ form_profile }}
-  <input type="submit" value="Register">
-</form>
-{% endif %}
-
+                                        <div class="form-group">
+                                            <label class="small mb-1">Confirm Password</label>
+                                            {{ form.password2 }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-4 mb-0">
+                                    <button type="submit" class="col-md-12 btn btn-dark">Sign Up</button><br><br>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="small">
+                                <a href="#">Have an account? Go to Sign in</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

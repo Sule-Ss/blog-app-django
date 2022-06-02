@@ -1,10 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+from PIL import Image
 
-class UserProfile(models.Model):
-    portfolio = models.URLField(blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE) # kullanıcı silinirse tablodaki verilerde silinmesi için on_delete kullandık. 1-1 dediğimiz için auto id atayacak
+
+# Extending User Model Using a One-To-One Link
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
+    bio = models.TextField()
+
     def __str__(self):
         return self.user.username
+
+        # resizing images
+    def save(self, *args, **kwargs):
+        super().save()
+
+        img = Image.open(self.avatar.path)
+
+        if img.height > 100 or img.width > 100:
+            new_img = (100, 100)
+            img.thumbnail(new_img)
+            img.save(self.avatar.path)

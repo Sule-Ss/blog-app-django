@@ -1,71 +1,31 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect 
 from django.contrib import messages
-
-from django.contrib.auth import logout, login
-from .forms import UserForm, UserProfileForm
-
-from django.contrib.auth.forms import AuthenticationForm
+from django.views import View
 
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.views import LoginView
+
+from users.forms import LoginForm, RegisterForm
+
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.views import PasswordChangeView
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+from .forms import UpdateUserForm, UpdateProfileForm
 
 def home(request):
-    return render(request, "home.html")
-
-""" def user_profile(request):
-    return render(request, "users/user_profile.html") """
-
-def user_logout(request):
-    messages.success(request, 'You logged out!')
-    logout(request)
-    return redirect('home')
-
-def register(request):
-    form_user = UserForm()
-    form_profile = UserProfileForm()
-
-    if request.method == 'POST':
-        form_user = UserForm(request.POST)
-        form_profile = UserProfileForm(request.POST, request.FILES)
-
-        if form_user.is_valid() and form_profile.is_valid():
-            user = form_user.save()
-            #! Bütün bilgileri alıp model oluşturur ancak ds e kaydetmez
-            profile = form_profile.save(commit=False)
-            #! Kullanıcı bilgisini alabilmek için:
-            profile.user = user
-            profile.save()
-
-            login(request, user)
-            messages.success(request, 'Register Successfull!')
-
-            return redirect('home')
-
-    context = {
-        "form_user": form_user,
-        "form_profile": form_profile
-    }
-
-    return render(request, 'users/register.html',context)
-
-def user_login(request):
-    form = AuthenticationForm(request, data=request.POST)
-
-    if form.is_valid():
-        user = form.get_user()
-        
-        if user:
-            messages.success(request,'login successfull')
-            login(request, user)
-            return redirect('home')
-
-    return render(request, 'users/user_login.html', {"form":form})
+    return render(request, 'home.html')
 
 @login_required
-def user_profile(request):
+def profile(request):
     if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
-        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -73,9 +33,71 @@ def user_profile(request):
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='users-profile')
     else:
-        user_form = UserForm(instance=request.user)
-        profile_form = UserProfileForm(instance=request.user.profile)
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
+class RegisterView(View):
+    form_class = RegisterForm
+    initial = {'key': 'value'}
+    template_name = 'users/register.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        # will redirect to the home page if a user tries to access the register page while logged in
+        if request.user.is_authenticated:
+            return redirect(to='/')
+
+        # else process dispatch as it otherwise normally would
+        return super(RegisterView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}')
+
+            return redirect(to='login')
+
+        return render(request, self.template_name, {'form': form})
+
+# Class based view that extends from the built in login view to add a remember me functionality
+class CustomLoginView(LoginView):
+    form_class = LoginForm
+
+    def form_valid(self, form):
+        remember_me = form.cleaned_data.get('remember_me')
+
+        if not remember_me:
+            # set session expiry to 0 seconds. So it will automatically close the session after the browser is closed.
+            self.request.session.set_expiry(0)
+
+            # Set session as modified to force data updates/cookie to be saved.
+            self.request.session.modified = True
+
+        # else browser session will be as long as the session cookie time "SESSION_COOKIE_AGE" defined in settings.py
+        return super(CustomLoginView, self).form_valid(form)
+
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'users/password_reset.html'
+    email_template_name = 'users/password_reset_email.html'
+    subject_template_name = 'users/password_reset_subject'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('users-home')
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'users/change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('users-home')

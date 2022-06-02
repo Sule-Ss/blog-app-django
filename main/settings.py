@@ -20,8 +20,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 from decouple import config
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,11 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #MY APPS:
-    'blogapp',
-    'users',
+    'social_django',
 
-    'crispy_forms',
+    #MY APPS:
+    'users',
+    'blogapp',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                #! social-login için:
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -139,3 +144,35 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ! Şifre hatırlama süresi:
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
+
+#! LOGIN_REDIRECT_URL, Django'ya başarılı bir oturum açtıktan sonra kullanıcıyı ana sayfaya yönlendirmesini söyler.
+LOGIN_REDIRECT_URL = '/'
+
+#! LOGIN_URL, belirli sayfalara erişimi sınırlamaya çalışırken isteklerin giriş için yeniden yönlendirildiği URL veya adlandırılmış URL kalıbıdır. Varsayılan olarak '/accounts/login/' şeklindedir. Ancak giriş rotamızı /login'e koyduğumuz için LOGIN_URL, Django'ya bu rotayı nerede bulabileceğini söyler.
+
+LOGIN_URL = 'login'
+
+#? django.contrib.auth.backends.ModelBackend, Django'da varsayılan olarak kullanıcıların kullanıcı adı/parola yöntemiyle oturum açmasına izin veren temel kimlik doğrulama backenddidir. Aşağıdakiler, sosyal kimlik doğrulama için uygulamamızda kullanılacak Google ve Github backendleridir.
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# social auth configs for github
+SOCIAL_AUTH_GITHUB_KEY = '0172a8ae4b64eddf5594'
+SOCIAL_AUTH_GITHUB_SECRET = 'ee128997e23b061f620e83722ecdac5931de71cc'
+
+
+# email configs
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = str(os.getenv('EMAIL_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))

@@ -1,5 +1,26 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% block title %}Logout{% endblock title %}
 {% block content %}
-    <h1>logout page</h1>
+
+<style>
+.messageCard{
+    background-color:whitesmoke;
+    margin: auto;
+    margin-top: 2rem;
+    box-shadow: 5px 10px 18px #888888;
+    text-align:center;
+}
+</style>
+    <div class="card messageCard" style="width: 18rem;">
+        <div class="card-body">
+        <h5 class="card-title">You have been logged out</h5>
+        <p class="card-text">
+            Thanks for your time, <br>
+            See you later...
+        </p>
+        <br><hr><a href="{% url 'login' %}" class="btn btn-primary">Sign in again</a>
+        </div>
+    </div>
+
+
 {% endblock content %}
-    

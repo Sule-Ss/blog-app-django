@@ -1,0 +1,7 @@
+.nav-item:hover {
+	 background-color: #fff !important; 
+	 color: purple !important;
+	 font-weight: bold !important;
+	 margin: 0px !important;
+	 border-radius: 1rem !important;
+	}
