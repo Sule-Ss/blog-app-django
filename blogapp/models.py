@@ -30,6 +30,7 @@ class Blog(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     publish_date=models.DateTimeField(auto_now_add=True)
     last_update=models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-date']
@@ -45,6 +46,7 @@ class Comment(models.Model):
     blog = models.ForeignKey(Blog, related_name='comments', on_delete=models.CASCADE)
     body = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
+    user= models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['date_added']
@@ -53,3 +55,14 @@ class Comment(models.Model):
 class Favorite(models.Model):
     user = models.ForeignKey(User, related_name='favorites' , on_delete=models.CASCADE)
     blog = models.ForeignKey(Blog, related_name='favorites' , on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.post.title
+
+class BlogView(models.Model):
+    time_stamp = models.DateTimeField(auto_now=True)
+    user= models.ForeignKey(User, on_delete=models.CASCADE)
+    blog= models.ForeignKey(Blog, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.blog.user
