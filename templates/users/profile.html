@@ -12,8 +12,8 @@ body{
   }
 </style>
 
-<section class="profileCon container">
-  <div class="row my-3 p-3 mx-auto">
+<section class="profileCon container" style="margin-left:5rem;">
+  <div class="row my-3 p-3 mx-auto" style="">
     <img
       class="rounded-circle account-img"
       src="{{ user.profile.avatar.url }} "
@@ -32,7 +32,7 @@ body{
     </button>
   </div>
   {% endif %}
-  <div class="form-content">
+  <div class="form-content mx-auto" >
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="form-row">

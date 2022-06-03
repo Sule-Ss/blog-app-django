@@ -15,7 +15,7 @@ class BlogForm(forms.ModelForm):
             'status': 'Status',
         }
         widgets = {
-            'content': forms.Textarea(attrs={'cols':80, 'rows':20})
+            'content': forms.Textarea(attrs={'cols':80, 'rows':10})
         }
 
 class CommentForm(forms.ModelForm):

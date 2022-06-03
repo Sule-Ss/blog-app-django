@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'social_django',
 
     #MY APPS:
-    'users',
+    'users.apps.UsersConfig',
     'blogapp',
 ]
 

@@ -30,7 +30,7 @@
         <div class="col-md-12">
           <nav
             class="navbar navbar-expand-md navbar-dark"
-            style="background-color: #5161ce"
+            style="position: sticky;  top: 0; background-color: #371B58"
           >
             <a href="/" class="navbar-brand nav-item nav-link"
               ><i class="fa-solid fa-house-chimney"></i
@@ -76,7 +76,7 @@
                 >
                 {% if request.user.is_superuser %}
                 <a href="{% url 'users-profile' %}" class="nav-item nav-link aTag" style="color: white"
-                  ><i class="fa-solid fa-user"></i>Admin</a
+                  ><i class="fa-solid fa-user"></i> Admin</a
                 >
                 {% else %}
                 <a href="{% url 'users-profile' %}" class="nav-item nav-link aTag" style="color: white"

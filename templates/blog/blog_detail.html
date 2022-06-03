@@ -6,26 +6,120 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
+
 <style>
-  .detailsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .cardContainer{
+    display:flex;
+    justify-content:space-around;
+    width: 70%;
+    margin:auto;
+    margin-top:2rem;
+    margin-bottom:2rem;
+    padding:1rem;
+    box-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 1em;
   }
 
-  .detailsContainer .cardContainer {
-    display: flex;
-    flex-direction: column;
-    box-shadow: 5px 10px 8px #85586f;
-    min-width: 30%;
-  }
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-    margin: 1rem 2rem;
+  .imageCon{
+    width: 20rem;
+    height:20rem;
+    box-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 1em;
   }
 
-  /* delete button */
+  .contentCon{
+    width: 50%
+  }
+
+  .userContent{
+    display:flex;
+        width: 60%;
+    height: 60px;
+    margin-left: 10px;
+
+  }
+
+  .userContent img{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    float: left;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+
+  .userName{
+    font-size: 20px;
+    color: #3b3c3f;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    margin-top: 10px;
+    padding-left: 10px;
+
+  }
+
+    .icons{
+    display: flex;
+    justify-content:space-around;
+    margin-top:1rem;
+  }
+
+  .category{
+    background-color: #abe9cd;
+    background-image: linear-gradient(315deg, #abe9cd 0%, #3eadcf 74%);
+
+    padding: 0 0.5rem;
+    margin: 5px 2rem;
+    width:5rem;
+    border-radius: 1rem;
+  }
+
+  .icons>*{
+    cursor: pointer;
+  }
+
+  .commnetForm{
+    display:flex;
+    justify-content:space-evenly;
+    align-items:center;
+    width: 70%;
+    margin:auto;
+    margin-top:2rem;
+    margin-bottom:2rem;
+    padding:1rem;
+    box-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 1em;
+  }
+
+  .submitButton{
+    color:white;
+    margin-left:2rem;
+    border-radius: 10px;
+    background-color: #0cbaba;
+    background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
+    border:none;
+    padding:0.5rem;
+    cursor: pointer;
+  }
+
+  .commentsCon{
+    display:flex;
+    justify-content:space-evenly;
+    width: 70%;
+    margin:auto;
+    margin-top:2rem;
+    margin-bottom:2rem;
+    padding:1rem;
+    box-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 1em;
+}
+  
+  .buttons{
+    display:flex;
+    justify-content:space-between;
+  }
+
+/* delete button */
 
   .cardContainer .deleteButton {
     background-image: linear-gradient(
@@ -71,111 +165,9 @@
     border-radius: 10px;
     display: block;
   }
-
-  .card__image {
-    height: 30rem;
-    width: 100%;
-    background-size: cover;
-    background-position: center;
-  }
-
-  .cardContainer .updateButton:hover {
-    background-position: right center; /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
-  }
-</style>
-<style>
-  form {
-    font: 95% Arial, Helvetica, sans-serif;
-    max-width: 400px;
-    margin: 10px auto;
-    padding: 16px;
-    background: #f7f7f7;
-  }
-  form h1 {
-    background: #9385d3;
-    padding: 20px 0;
-    font-size: 140%;
-    font-weight: 300;
-    text-align: center;
-    color: #fff;
-    margin: -16px -16px 16px -16px;
-  }
-  form input[type="text"],
-  form input[type="date"],
-  form input[type="datetime"],
-  form input[type="email"],
-  form input[type="number"],
-  form input[type="search"],
-  form input[type="time"],
-  form input[type="url"],
-  form input[type="image"],
-  form input[type="password"],
-  form input,
-  .password,
-  #id_phone_number,
-  form textarea,
-  form select {
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    outline: none;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    width: 100%;
-    background: #fff;
-    margin-bottom: 4%;
-    border: 1px solid #ccc;
-    padding: 3%;
-    color: #555;
-    font: 95% Arial, Helvetica, sans-serif;
-  }
-  form input[type="text"]:focus,
-  form input[type="date"]:focus,
-  form input[type="datetime"]:focus,
-  form input[type="email"]:focus,
-  form input[type="number"]:focus,
-  form input[type="search"]:focus,
-  form input[type="time"]:focus,
-  form input[type="url"]:focus,
-  form input[type="image"]:focus,
-  form input[type="password"]:focus,
-  .password:focus,
-  #id_phone_number:focus,
-  form textarea:focus,
-  form select:focus {
-    box-shadow: 0 0 5px #7e43d1;
-    padding: 3%;
-    border: 1px solid #c843d1;
-  }
-
-  form input[type="submit"],
-  form input[type="button"],
-  .noButton {
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    width: 100%;
-    padding: 3%;
-    background: #9457ea;
-    border-bottom: 2px solid #6528ba;
-    border-top-style: none;
-    border-right-style: none;
-    border-left-style: none;
-    color: #fff;
-  }
-  form input[type="submit"]:hover,
-  form input[type="button"]:hover,
-  .noButton:hover {
-    background: #8e58da;
-    cursor: pointer;
-  }
 </style>
 
-<div class="detailsContainer">
+{% comment %} <div class="detailsContainer">
   <div class="cardContainer">
     <div class="card__header">
       <img
@@ -216,25 +208,61 @@
       </div>
     </div>
   </div>
-</div>
-<form action="." method="post">
+</div> {% endcomment %}
+
+<section class="cardContainer">
+  <nav class="">
+    <img src="{{ blog.image.url }}" alt="" class="imageCon">
+  </nav>
+
+  <nav class="contentCon">
+    <div>
+      <h3 class="contentTitle">{{blog.title}}</h3>
+      <p class="category">{{ blog.category }}</p>
+      <p class="contentBody">{{ blog.content }}</p>
+    </div>
+
+    <div class="userContent">
+      <img src="https://assets.codepen.io/2642098/internal/avatars/users/default.png?format=auto&height=80&version=1543776877&width=80" alt="user_image">
+      <p class="userName">userName</p>
+    </div>
+
+    <article class="icons">
+      <p><i class="fa-regular fa-comment"></i> <small>{{ blog.comments.all|length }}</small></p>
+            
+      <p><i class="fa-solid fa-eye"></i> <small>1</small></p> 
+      <p><i class="fa-regular fa-heart"></i> <small>1</small></p> 
+    </article>
+
+    <div class="buttons">
+      <a href="{% url 'update' blog.slug %}" class="updateButton">Update</a>
+      <a href="{% url 'delete' blog.slug %}" class="deleteButton">Delete</a>
+    </div>
+  </nav>
+
+</section>
+
+
+<form action="." method="post" class="commnetForm">
   {% csrf_token %} {{ form.as_p }}
   <div class="">
     <div class="">
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Submit" class="submitButton"/>
     </div>
   </div>
 </form>
 
-<div class="">
+<div class="commentsCon">
   <div>
-    <h1>Commnets</h1>
+    <h3>Commnets</h3>
     <!-- buradaki comments related_name den geliyor -->
     {% for comment in blog.comments.all %}
-    <p>
-      <span>{{ comment.body }}</span>
-      <span>{{ comment.date_added | date:"F Y" }}</span>
-    </p>
+    <ul>
+      <li>
+          <span>{{ comment.body }}</span>
+          <span>{{ comment.date_added | date:"F Y" }}</span>
+      </li>
+    </ul>
     {% endfor %}
   </div>
 </div>
