@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from blogapp.forms import BlogForm
-from .models import Blog
+from .models import Blog, Comment, Favorite
 from .forms import CommentForm
 
 
@@ -40,21 +40,23 @@ def blog_add(request):
 
 def blog_detail(request, slug):
     blog = Blog.objects.get(slug=slug)
-
+    comments = Comment.objects.filter(blog=blog).order_by('-id')
+    
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = CommentForm(request.POST or None)
 
         if form.is_valid():
 #!save()'i commit=False ile çağırırsanız, o zaman veritabanına henüz kaydedilmemiş bir nesne döndürür. Bir sonraki adımda save ile de kaydedilir.
             comment = form.save(commit=False)
             comment.blog = blog
+            comment.user =request.user
             comment.save()
 
             return redirect('detail', slug=blog.slug)
 
     else:
         form = CommentForm()
-    return render(request, 'blog/blog_detail.html', {'blog':blog, 'form':form})
+    return render(request, 'blog/blog_detail.html', {'blog':blog, 'form':form, 'comments':comments})
 
 def blog_update(request, slug):
     blog = Blog.objects.get(slug=slug)
@@ -85,4 +87,12 @@ def favorite(request, slug):
     count =blog.favorites.count()
 
     return render(request, 'blog/blog_detail.html', {'count':count})
+
+def likeView(request,pk):
+    blog = get_object_or_404(Blog, id=request.POST.get('blog_id'))
+    Favorite.objects.get_or_create(user=request.user, blog=blog)
+    context = {
+        'blog':blog,
+    }
+    return render(request, 'blog/blog_detail.html', context)
 

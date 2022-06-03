@@ -92,14 +92,25 @@
   }
 
   .submitButton{
-    color:white;
-    margin-left:2rem;
-    border-radius: 10px;
     background-color: #0cbaba;
     background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
-    border:none;
-    padding:0.5rem;
+    padding: 0.3rem 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
     cursor: pointer;
+    border:none;
+  }
+  .submitButton:hover{
+    background-position: right center;
+
+    color: #fff;
+    text-decoration: none;
   }
 
   .commentsCon{
@@ -119,6 +130,17 @@
     justify-content:space-between;
   }
 
+  
+  #id_body{
+    height:4rem;
+    width: 40rem;
+    padding:1rem;
+    word-wrap: break-word;
+  }
+
+  label{
+    font-weight:bold;
+  }
 /* delete button */
 
   .cardContainer .deleteButton {
@@ -167,55 +189,13 @@
   }
 </style>
 
-{% comment %} <div class="detailsContainer">
-  <div class="cardContainer">
-    <div class="card__header">
-      <img
-        src="{{ blog.image.url }}"
-        alt="card__image"
-        class="card__image"
-        width="600"
-      />
-    </div>
-    <div class="card__body">
-      <span class="tag tag-blue">{{ blog.category }}</span>
-      <h4>{{blog.title}}</h4>
-      <p>{{ blog.content }}</p>
-    </div>
-    <div class="card__footer">
-      <div class="user">
-        <img
-          src="{{ request.profile_pic }}"
-          alt="user__image"
-          class="user__image"
-        />
-        <div class="user__info">
-          <h5>{{ request.user }}</h5>
-          <small>{{ blog.last_date}}</small>
-          <div>{{ request.user.profile_pic}}</div>
-        </div>
-      </div>
-
-      <article>
-        <span><i class="fa-regular fa-comment"></i></span> <small>{{ blog.comments.all|length }}</small>
-        <span><i class="fa-solid fa-eye"></i></span> <small>{{ request.count }}</small>
-        <span><i class="fa-regular fa-heart"></i></span> <small>1</small>
-      </article>
-
-      <div class="buttons">
-        <a href="{% url 'update' blog.slug %}" class="updateButton">Update</a>
-        <a href="{% url 'delete' blog.slug %}" class="deleteButton">Delete</a>
-      </div>
-    </div>
-  </div>
-</div> {% endcomment %}
-
 <section class="cardContainer">
   <nav class="">
     <img src="{{ blog.image.url }}" alt="" class="imageCon">
   </nav>
 
   <nav class="contentCon">
+  <p class="date1">{{ blog.last_update | timesince }}</p>
     <div>
       <h3 class="contentTitle">{{blog.title}}</h3>
       <p class="category">{{ blog.category }}</p>
@@ -230,13 +210,18 @@
     <article class="icons">
       <p><i class="fa-regular fa-comment"></i> <small>{{ blog.comments.all|length }}</small></p>
             
-      <p><i class="fa-solid fa-eye"></i> <small>1</small></p> 
-      <p><i class="fa-regular fa-heart"></i> <small>1</small></p> 
+      <p><i class="fa-solid fa-eye"></i> <small>{{ blog.get_view_count }}</small></p> 
+      <p><i class="fa-regular fa-heart"></i> <small>0</small></p> 
     </article>
 
     <div class="buttons">
       <a href="{% url 'update' blog.slug %}" class="updateButton">Update</a>
-      <a href="{% url 'delete' blog.slug %}" class="deleteButton">Delete</a>
+      <a href="{% url 'delete' blog.slug %}">
+                <form action="{% url 'delete' blog.slug %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="delete" class="deleteButton" style="border:none; cursor:pointer;">
+                </form>  
+      </a>
     </div>
   </nav>
 
@@ -260,7 +245,8 @@
     <ul>
       <li>
           <span>{{ comment.body }}</span>
-          <span>{{ comment.date_added | date:"F Y" }}</span>
+          <span>{{ comment.date_added | timesince }}</span>
+          <span>{{ comment.user }}</span>
       </li>
     </ul>
     {% endfor %}

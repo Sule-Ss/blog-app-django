@@ -1,4 +1,4 @@
-from .views import about, blog_delete, home, blog_list, blog_detail,blog_add,blog_update,blog_delete
+from .views import about, blog_delete, home, blog_list, blog_detail,blog_add,blog_update,blog_delete, likeView
 from django.urls import path
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
      path('list/', blog_list, name="list"),
      path('update/<slug:slug>/', blog_update, name="update"),
      path('delete/<slug:slug>/', blog_delete, name="delete"),
+     path('post_like/<int:pk>', likeView, name="post_like"),
 ]

@@ -41,6 +41,16 @@ class Blog(models.Model):
     def get_absolute_url(self):
         return reverse("article_detail", kwargs={"slug": self.slug})
 
+    def get_comment_count(self):
+        comments = Comment.objects.all()
+        return comments.count()
+
+    def get_view_count(self):
+        return BlogView.objects.filter(blog=self).count()
+
+    def get_like_count(self):
+        return Favorite.objects.filter(blog=self).count()
+
 
 class Comment(models.Model):
     blog = models.ForeignKey(Blog, related_name='comments', on_delete=models.CASCADE)

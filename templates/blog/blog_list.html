@@ -160,23 +160,25 @@
         
         <div class="author1">
           <img
-            src="https://assets.codepen.io/2642098/internal/avatars/users/default.png?format=auto&height=80&version=1543776877&width=80"
+            src="https://images.unsplash.com/photo-1474112704314-8162b7749a90?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGZsb3dlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
             alt=""
             class="author-image1"
           />
           <div class="author-content1">
-            <p class="author-name1">{{ request.user }}</p>
-            <p class="date1">{{ blog.last_update}}</p>
+            <p class="author-name1">{{ blog.user }}</p>
+            <p class="date1">{{ blog.last_update | timesince }}</p>
           </div>
         </div>
 
           <article class="icons">
             <p><i class="fa-regular fa-comment"></i> <small>{{ blog.comments.all|length }}</small></p>
             
-            <p><i class="fa-solid fa-eye"></i> <small>1</small></p> 
-            <p><i class="fa-regular fa-heart"></i> <small>1</small></p> 
+            <p><i class="fa-solid fa-eye"></i> <small>{{ blog.get_view_count }}</small></p> 
+            <p><i class="fa-regular fa-heart"></i> <small>0</small></p> 
           </article>
       </div>
+
+      
 
   </section> 
   {% endfor %}
