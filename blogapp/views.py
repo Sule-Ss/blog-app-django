@@ -41,7 +41,7 @@ def blog_add(request):
 def blog_detail(request, slug):
     blog = Blog.objects.get(slug=slug)
     comments = Comment.objects.filter(blog=blog).order_by('-id')
-    
+    likeCount = Favorite.objects.filter(blog = blog)
     if request.method == 'POST':
         form = CommentForm(request.POST or None)
 
@@ -56,7 +56,7 @@ def blog_detail(request, slug):
 
     else:
         form = CommentForm()
-    return render(request, 'blog/blog_detail.html', {'blog':blog, 'form':form, 'comments':comments})
+    return render(request, 'blog/blog_detail.html', {'blog':blog, 'form':form, 'comments':comments, 'likeCount':likeCount})
 
 def blog_update(request, slug):
     blog = Blog.objects.get(slug=slug)
@@ -82,17 +82,20 @@ def blog_delete(request, slug):
         return redirect('list')
     return render(request, 'blog/blog_delete.html')
 
-def favorite(request, slug):
-    blog = Blog.objects.get(slug = blog.slug)
-    count =blog.favorites.count()
 
-    return render(request, 'blog/blog_detail.html', {'count':count})
-
-def likeView(request,pk):
-    blog = get_object_or_404(Blog, id=request.POST.get('blog_id'))
-    Favorite.objects.get_or_create(user=request.user, blog=blog)
-    context = {
-        'blog':blog,
-    }
-    return render(request, 'blog/blog_detail.html', context)
+def likeView(request, slug):
+    blog = Blog.objects.get(slug=slug)
+    checkLike = Favorite.objects.filter(user=request.user, blog=blog)
+    print(blog)
+    if not checkLike:
+        likeList= Favorite.objects.create(user=request.user, blog=blog)
+        likeList.save()
+    else:
+        checkLike.delete()
+    return redirect('detail', slug=slug)
+    # Favorite.objects.get_or_create(user=request.user, blog=blog)
+    # context = {
+    #     'blog':blog,
+    # }
+ 
 

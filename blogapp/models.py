@@ -67,7 +67,7 @@ class Favorite(models.Model):
     blog = models.ForeignKey(Blog, related_name='favorites' , on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.post.title
+        return self.blog.title
 
 class BlogView(models.Model):
     time_stamp = models.DateTimeField(auto_now=True)

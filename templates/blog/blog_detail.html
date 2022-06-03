@@ -291,7 +291,7 @@
       <p><i class="fa-regular fa-comment"></i> <small>{{ blog.comments.all|length }}</small></p>
             
       <p><i class="fa-solid fa-eye"></i> <small>{{ blog.get_view_count }}</small></p> 
-      <p><i class="fa-regular fa-heart"></i> <small>0</small></p> 
+      <p><i class="fa-regular fa-heart"></i><a href="{% url 'post_like' blog.slug %}">{{ likeCount.count }}</a></p> 
     </article>
 
     <div class="buttons">

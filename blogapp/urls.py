@@ -9,5 +9,5 @@ urlpatterns = [
      path('list/', blog_list, name="list"),
      path('update/<slug:slug>/', blog_update, name="update"),
      path('delete/<slug:slug>/', blog_delete, name="delete"),
-     path('post_like/<int:pk>', likeView, name="post_like"),
+     path('post_like/<slug:slug>', likeView, name="post_like"),
 ]
