@@ -187,6 +187,86 @@
     border-radius: 10px;
     display: block;
   }
+
+  /* comment list */
+
+  .commentsBody{
+        --bg: #fdfdfd;
+    --highlight1: #ED4264;
+    --highlight2: #FFEDBC;
+    --color: #1a1e24;
+    --font-number: Montserrat, Roboto, Helvetica, Arial, sans-serif;
+    --font-head: "Space Mono", Consolas, Menlo, Monaco, "Courier New", monospace;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg);
+    font-family: var(--font);
+  }
+
+  .list {
+    list-style: none;
+    width: 700px;
+    max-width: 90%;
+    padding:10px;
+}
+
+.item {
+    display: block;
+    clear: both;
+    counter-increment: list;
+    padding-bottom: 4rem;
+    font-size: 1rem;
+    line-height: 1.375;
+    position: relative;
+    margin:10px;
+    padding:1rem;
+    box-shadow: 0 0 20px #eee;
+}
+
+.item span{
+  font-size:1rem;
+  word-wrap: break-word;
+}
+
+.item:before {
+    font: bold 2.25rem/1 var(--font-number);
+    content: counter(list);
+    width: 3rem;
+    height: 3rem;
+    float: left;
+    margin: 0 1.5rem 0.75rem 0;
+    color: var(--bg);
+    background: var(--highlight1) linear-gradient(to bottom right, var(--highlight1) 25%, var(--highlight2));
+    text-shadow: 0 0 2px var(--highlight1);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    shape-outside: ellipse();
+    z-index: 1;
+}
+
+.item:after {
+    width: 2.5rem;
+    height: 2.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    background: var(--highlight1);
+    z-index: -1;
+    border-top-left-radius: 3px;
+}
+
+
+.headline {
+    padding: 0rem 0 0 0;
+    margin: 0 0 1rem 0;
+    font: normal 2rem var(--font-head);
+}
 </style>
 
 <section class="cardContainer">
@@ -203,8 +283,8 @@
     </div>
 
     <div class="userContent">
-      <img src="https://assets.codepen.io/2642098/internal/avatars/users/default.png?format=auto&height=80&version=1543776877&width=80" alt="user_image">
-      <p class="userName">userName</p>
+      <img src="https://images.unsplash.com/photo-1578941838877-141265f3a898?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHdyaXRlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="user_image">
+      <p class="userName">{{ blog.user }}</p>
     </div>
 
     <article class="icons">
@@ -237,19 +317,18 @@
   </div>
 </form>
 
-<div class="commentsCon">
+<div class="commentsBody">
   <div>
-    <h3>Commnets</h3>
     <!-- buradaki comments related_name den geliyor -->
+    <h3>Commnets</h3>
+    <ol class="list">
     {% for comment in blog.comments.all %}
-    <ul>
-      <li>
-          <span>{{ comment.body }}</span>
-          <span>{{ comment.date_added | timesince }}</span>
-          <span>{{ comment.user }}</span>
+      <li class="item">
+          <h2 class="headline">{{ comment.user }} <span>{{ comment.date_added | timesince }}</span></h2>
+          <span>{{ comment.body }}</span> 
       </li>
-    </ul>
     {% endfor %}
+    </ol>
   </div>
 </div>
 
