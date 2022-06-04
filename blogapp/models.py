@@ -23,7 +23,7 @@ STATUS =(
 class Blog(models.Model):
     title= models.CharField(max_length=100)
     content= models.TextField()
-    image= models.ImageField(upload_to = "blogImg/", default= "default.jpg")
+    image= models.URLField( default= "default.jpg")
     category= models.CharField(choices=CATEGORY, blank=True, max_length=200)
     status= models.CharField(choices=STATUS, max_length=200)
     slug = models.SlugField(unique=True, blank=True)

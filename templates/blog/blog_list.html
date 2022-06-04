@@ -1,166 +1,26 @@
-{% extends 'base.html' %} {% block content %} {% load static %}
+{% extends 'base.html' %} {% block content %} 
+{% load static %}
 
-<style>
-  body {
-    background-color: #e4e6eb;
-  }
-  body::-webkit-scrollbar {
-    display: none;
-  }
-  .main1 {
-    margin-bottom: 50px;
-  }
-  .card1 {
-     width: 700px;
-    height: 300px;
-    background: rgb(255, 255, 255);
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(242, 245, 248, 1) 35%,
-      rgba(236, 236, 237, 1) 100%
-    );
-    box-shadow: 0 13px 15px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    margin-left: 5%;
-    margin-top: 30px;
-    transition: background-color 0.5s, box-shadow 0.5s, margin-left 0.5s;
-  }
-  .card1:hover {
-    margin-left: 8%;
-    background-color: #ffff;
-    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.5s, box-shadow 0.5s, margin-left 0.5s;
-  }
-  .post-image1 {
-   width: 200px;
-  height: 220px;
-    margin-top: 15px;
-    margin-left: 15px;
-    border-radius: 10px 10px 10px;
-    float: left;
-  }
-  .post-content1 {
-    width: 60%;
-    float: left;
-    margin-left: 5px;
-    overflow: hidden;
-  }
-  a:link {
-    font-family: "Roboto", sans-serif;
-    text-decoration: none;
-  }
-  .post-header1 {
-    font-size: 28px;
-    font-family: "Roboto", sans-serif;
-    margin-top: 15px;
-    color: blue;
-    margin-left: 10px;
-    text-align: center;
-  }
-  .post-text1 {
-    font-size: 15px;
-    height:4rem;
-    padding-left: 20px;
-    color: #768ca4;
-    font-family: "Roboto", sans-serif;
-  }
-  .author1 {
-    widt: 100%;
-    height: 60px;
-    background-color: #f2f5f8;
-    margin-left: 20px;
-    margin-top: 5px;
-    border-radius: 10px;
-  }
-  .author-content1 {
-    width: 60%;
-    height: 60px;
-    margin-left: 10px;
-
-    float: left;
-  }
-  .author-image1 {
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-    float: left;
-    margin-left: 10px;
-    margin-top: 5px;
-  }
-  .author-name1 {
-    font-size: 20px;
-    color: #3b3c3f;
-    font-family: "Roboto", sans-serif;
-    font-weight: bold;
-    margin-top: 10px;
-    padding-left: 10px;
-  }
-  .date1 {
-    font-size: 13px;
-    font-family: "Roboto", sans-serif;
-    margin-top: -15px;
-    padding-bottom:1rem;
-    padding-left: 10px;
-  }
-
-  .icons{
-    display: flex;
-    justify-content:space-around;
-    margin-top:1rem;
-  }
-
-  .category{
-    background-color: blue;
-    color:white;
-    padding: 0 0.5rem;
-    margin: 5px 2rem;
-    width:5rem;
-    border-radius: 1rem;
-  }
-
-  .icons>*{
-    cursor: pointer;
-  }
-
-  .readmore {
-  color: #75D13B;
-  margin-bottom: 10px;
-  float: right;
-}
-.readmore:after {
-  transition: all 0.3s ease;
-  -webkit-transition: all 0.3s ease;
-  content: "\f061";
-  font-family: FontAwesome;
-  margin-left: -10px;
-  opacity: 0;
-  vertical-align: middle;
-}
-.readmore:hover:after {
-  margin-left: 5px;
-  opacity: 1;
-}
-</style>
 
 <link
   href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
   rel="stylesheet"
 />
 
+<link rel="stylesheet" href="{% static 'blogapp/blog_list.css' %}">
 <main class="main1">
   {% for blog in blog_list %}
   <section class="card1">
-      <img class="post-image1" src="{{ blog.image.url }}" />
+      <img class="post-image1" src="{{ blog.image }}" />
 
       <div class="post-content1">
-        <p class="post-header1">{{blog.title | title}}</p>
+        <h1 class="post-header1">{{blog.title | title}}</h1>
         <p class="category">{{ blog.category }}</p>
         <p class="post-text1">{{ blog.content|slice:120}}... <a href="{% url 'detail' blog.slug %}" class="readmore">Read More</a></p>
         
         <div class="author1">
           <img
-            src="https://images.unsplash.com/photo-1578941838877-141265f3a898?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHdyaXRlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+            src="{{ user.avatar }}"
             alt=""
             class="author-image1"
           />
