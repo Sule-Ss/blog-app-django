@@ -60,17 +60,18 @@ a:link {
     margin-left: 10px;
     text-align: center;
     text-align: center;
-    color: #F2D1D1;
+    color: #570c52;
     text-transform: uppercase;
     padding: 1px;
     font-family: 'Raleway', cursive;
     font-weight: bold;
     position: relative;
-    background: -webkit-linear-gradient(left, #827397, #eee, #827397);
-    background: -moz-linear-gradient(left, #827397, #eee, #827397);
-    background: -ms-linear-gradient(left, #827397, #eee, #827397);
-    background: -o-linear-gradient(left, #827397, #eee, #827397);
-    border-radius: 1rem;
+    background: -webkit-linear-gradient(left, #b8c6db, #eee, #b8c6db);
+    background: -moz-linear-gradient(left, #b8c6db, #eee, #b8c6db);
+    background: -ms-linear-gradient(left, #b8c6db, #eee, #b8c6db);
+    background: -o-linear-gradient(left, #b8c6db, #eee, #b8c6db);
+    border-radius: 0 2rem ;
+
 }
 
 .post-text1 {
@@ -133,11 +134,11 @@ a:link {
     text-align: center;
     padding: 0 0.5rem;
     margin: 10px 1rem;
-    width: 5rem;
+    width: auto;
     border-radius: 1rem;
     color: white;
-    background-color: #f3e6e8;
-    background-image: linear-gradient(315deg, #f3e6e8 0%, #d5d0e5 74%);
+    background-color: #abe9cd;
+    background-image: linear-gradient(315deg, #abe9cd 0%, #3eadcf 74%);    
     
 }
 
@@ -165,3 +166,9 @@ a:link {
     margin-left: 5px;
     opacity: 1;
 }
+
+.blogWarning{
+    color: gray;
+    font-size: 15px;
+    margin-top: 1rem;
+  }

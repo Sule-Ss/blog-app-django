@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from blogapp.forms import BlogForm
+import users
 from .models import Blog, Comment, Favorite
 from .forms import CommentForm
 
@@ -25,16 +26,14 @@ def blog_add(request):
     if request.method == 'POST':
         form = BlogForm(request.POST)
         if form.is_valid():
-            blog = form.save()
-            if 'image' in request.FILES:
-                blog.image = request.FILES.get('image')
-                blog.save()
+            blog = form.save(commit=False)
+            blog.user = request.user
+            blog.save()
             messages.success(request, "blog created succesfully!")
             return redirect('list')
     context = {
         'form':form
     }
-
     return render(request, 'blog/blog_add.html', context)
 
 

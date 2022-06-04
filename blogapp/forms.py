@@ -6,7 +6,7 @@ class BlogForm(forms.ModelForm):
 
     class Meta:
         model = Blog
-        exclude= ('slug',)
+        fields= ["title","content","image","category","status"]
         labels = {
             'title': 'Title',
             'content': 'Content',
@@ -14,6 +14,7 @@ class BlogForm(forms.ModelForm):
             'category': 'Category',
             'status': 'Status',
         }
+
         widgets = {
             'content': forms.Textarea(attrs={'cols':40, 'rows':10})
         }

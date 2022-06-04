@@ -1,7 +1,6 @@
 {% extends 'base.html' %} {% block content %} 
 {% load static %}
 
-
 <link
   href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
   rel="stylesheet"
@@ -15,12 +14,11 @@
 
       <div class="post-content1">
         <h1 class="post-header1">{{blog.title | title}}</h1>
-        <p class="category">{{ blog.category }}</p>
         <p class="post-text1">{{ blog.content|slice:120}}... <a href="{% url 'detail' blog.slug %}" class="readmore">Read More</a></p>
         
         <div class="author1">
           <img
-            src="{{ user.avatar }}"
+            src="{{ blog.user.profile.avatar }}"
             alt=""
             class="author-image1"
           />
@@ -29,12 +27,13 @@
             <p class="date1">{{ blog.last_update | timesince }}</p>
           </div>
         </div>
+        <p class="category">{{ blog.category }}</p>
 
           <article class="icons">
             <p><i class="fa-regular fa-comment"></i> <small>{{ blog.comments.all|length }}</small></p>
             
             <p><i class="fa-solid fa-eye"></i> <small>{{ blog.get_view_count }}</small></p> 
-            <p><i class="fa-regular fa-heart"></i> <small>0</small></p> 
+            <p><i class="fa-regular fa-heart"></i> <small>{{ likeCount.count }} </small></p> 
           </article>
       </div>
 

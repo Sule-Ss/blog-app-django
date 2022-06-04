@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% block content %}
-{% load static %}
+{% extends 'base.html' %} {% block content %} {% load static %}
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -8,62 +7,127 @@
   referrerpolicy="no-referrer"
 />
 
-<link rel="stylesheet" href="{% static 'blogapp/blog_detail.css' %}">
+<link rel="stylesheet" href="{% static 'blogapp/blog_detail.css' %}" />
+
+<style>
+.author1 {
+    height: 60px;
+    background-color: #f2f5f8;
+    margin-left: 20px;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+.author-content1 {
+    width: 60%;
+    height: 60px;
+    margin-left: 10px;
+
+    float: left;
+}
+
+.author-image1 {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    float: left;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.author-name1 {
+    font-size: 20px;
+    color: #3b3c3f;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.date1 {
+    font-size: 13px;
+    font-family: "Roboto", sans-serif;
+    margin-top: -15px;
+    padding-bottom: 1rem;
+    padding-left: 10px;
+}
+</style>
 
 <section class="cardContainer">
   <nav class="">
-    <img src="{{ blog.image }}" alt="" class="imageCon">
+    <img src="{{ blog.image }}" alt="" class="imageCon" />
   </nav>
 
   <nav class="contentCon">
-  <p class="date1">{{ blog.last_update | timesince }}</p>
+    <p class="category">{{ blog.category }}</p>
     <div>
       <h3 class="contentTitle">{{blog.title}}</h3>
-      <p class="category">{{ blog.category }}</p>
       <p class="contentBody">{{ blog.content }}</p>
     </div>
 
-    <div class="userContent">
-      <img src="https://images.unsplash.com/photo-1578941838877-141265f3a898?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHdyaXRlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="user_image">
-      <p class="userName">{{ blog.user }}</p>
+    <div class="author1">
+      <img src="{{ blog.user.profile.avatar }}" alt="" class="author-image1" />
+      <div class="author-content1">
+        <p class="author-name1">{{ blog.user }}</p>
+       <p class="date1">{{ blog.last_update | timesince }}</p>
+      </div>
     </div>
 
     <article class="icons">
-      <p><i class="fa-regular fa-comment"></i> <small>{{ blog.comments.all|length }}</small></p>
-            
-      <p><i class="fa-solid fa-eye"></i> <small>{{ blog.get_view_count }}</small></p> 
-      <p><i class="fa-regular fa-heart"></i><a href="{% url 'post_like' blog.slug %}">{{ likeCount.count }}</a></p> 
+      <p>
+        <i class="fa-regular fa-comment"></i>
+        <small>{{ blog.comments.all|length }}</small>
+      </p>
+
+      <p>
+        <i class="fa-solid fa-eye"></i> <small>{{ blog.get_view_count }}</small>
+      </p>
+      <a href="{% url 'post_like' blog.slug %}"
+        ><p><i class="fa-regular fa-heart"></i> {{ likeCount.count }}</p>
+      </a>
     </article>
 
+    {% if blog.user == user %}
     <div class="buttons">
       <a href="{% url 'update' blog.slug %}" class="updateButton">Update</a>
       <a href="{% url 'delete' blog.slug %}" class="deleteButton">Delete</a>
     </div>
+    {% else %}
+    <div className="blogWarning">
+      Only the author of this blog can make changes...
+    </div>
+    {% endif %}
   </nav>
-
 </section>
 
+{% if user.is_authenticated %}
 
 <form action="." method="post" class="commnetForm">
   {% csrf_token %} {{ form.as_p }}
   <div class="">
     <div class="">
-      <input type="submit" value="Submit" class="submitButton"/>
+      <input type="submit" value="Submit" class="submitButton" />
     </div>
   </div>
 </form>
-
+{% else %}
+<div class="commentsBody blogWarning">
+  Please, <a href="{% url 'login' %}" style="margin: 0 0.5rem"> login </a>to
+  comment on the post.
+</div>
+{% endif %}
 <div class="commentsBody">
   <div>
     <!-- buradaki comments related_name den geliyor -->
-    <h3>Commnets</h3>
     <ol class="list">
-    {% for comment in blog.comments.all %}
+      {% for comment in blog.comments.all %}
       <li class="item">
-          <h2 class="headline">{{ comment.user }} <span>{{ comment.date_added | timesince }}</span></h2>
-          <span>{{ comment.body }}</span> 
+        <h2 class="headline">
+          {{ comment.user }} <span>{{ comment.date_added | timesince }}</span>
+        </h2>
+        <span>{{ comment.body }}</span>
       </li>
-    {% endfor %}
+      {% endfor %}
     </ol>
   </div>
 </div>
