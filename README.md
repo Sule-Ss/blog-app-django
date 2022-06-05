@@ -20,12 +20,14 @@
 
 ## Table of Contents
 
-- [Overview](#overview)
+<!-- - [Overview](#overview) -->
 - [Built With](#built-with)
-- [Features](#features)
 - [How to use](#how-to-use)
-- [Acknowledgements](#acknowledgements)
 - [Contact](#contact)
+<!-- - [Features](#features) -->
+
+<!-- - [Acknowledgements](#acknowledgements) -->
+
 
 <!-- OVERVIEW -->
 
